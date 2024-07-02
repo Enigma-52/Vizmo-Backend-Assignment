@@ -1,3 +1,4 @@
+// Define the database provider and URL
 datasource db {
   provider  = "postgresql"
   url       = env("DATABASE_URL")
@@ -8,22 +9,22 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model User {
-  id        String   @id @default(uuid()) @db.Uuid
-  name      String
-  email     String   @unique
-  password  String
-  createdAt DateTime @default(now())
-  blogs     Blog[]
+model Blog {
+  id         String   @id @default(uuid())
+  title      String
+  content    String
+  authorId   String
+  author     User     @relation(fields: [authorId], references: [id])
+  images     String[]
+  authorName String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }
 
-model Blog {
-  id        String   @id @default(uuid()) @db.Uuid
-  title     String
-  content   String
-  authorId  String   @db.Uuid
-  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  images    String[] @default([])
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model User {
+  id       String @id @default(uuid())
+  name     String
+  email    String @unique
+  password String
+  blogs    Blog[]
 }

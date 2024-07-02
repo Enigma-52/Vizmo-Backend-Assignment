@@ -1,4 +1,5 @@
-import { PrismaClient } from '@prisma/client';
+import pkg from '@prisma/client';
+const { PrismaClient } = pkg;
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
@@ -8,7 +9,7 @@ export const signUp = async (req, res) => {
     const { name, email, password } = req.body;
 
     try {
-        const existingUser = await prisma.user.findUnique({ where: { email } });
+        const existingUser = await prisma.user.findUnique({ where: { email: email } });
         if (existingUser) {
             return res.status(400).json({ error: 'Email already in use' });
         }
@@ -29,7 +30,7 @@ export const logIn = async (req, res) => {
     const { email, password } = req.body;
 
     try {
-        const user = await prisma.user.findUnique({ where: { email } });
+        const user = await prisma.user.findUnique({ where: { email: email } });
         if (!user) {
             return res.status(401).json({ error: 'Invalid credentials' });
         }

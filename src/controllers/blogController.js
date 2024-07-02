@@ -1,9 +1,15 @@
-import { PrismaClient } from '@prisma/client';
+import pkg from '@prisma/client';
+const { PrismaClient } = pkg;
 const prisma = new PrismaClient();
 
 export const createBlog = async (req, res) => {
     const { title, content, images } = req.body;
     const authorId = req.user.userId;
+
+    const author = await prisma.user.findUnique({
+        where: { id: authorId },
+        select: { name: true },
+    });
 
     if (!title || !content) {
         return res.status(400).json({ error: 'Title and content are required' });
@@ -15,8 +21,9 @@ export const createBlog = async (req, res) => {
                 title,
                 content,
                 authorId,
+                authorName: author.name,
                 images,
-            },
+            }
         });
 
         res.status(201).json(newBlog);
@@ -80,6 +87,65 @@ export const deleteBlog = async (req, res) => {
         await prisma.blog.delete({ where: { id } });
         res.status(204).send();
     } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+};
+
+export const filterBlog = async (req, res) => {
+    const { title = '', content = '', authorName = '' } = req.query;
+
+    console.log(title);
+    console.log(content);
+
+    try {
+        const andConditions = []; 
+
+        if (title) {
+            andConditions.push({
+                title: {
+                    contains: title,
+                    mode: 'insensitive',
+                }
+            });
+        }
+
+        if (content) {
+            andConditions.push({
+                content: {
+                    contains: content,
+                    mode: 'insensitive',
+                }
+            });
+        }
+
+        if (authorName) {
+            const authorUser = await prisma.user.findUnique({
+                where: { name: authorName },
+                select: { id: true }
+            });
+
+            if (!authorUser) {
+                return res.status(404).json({ error: 'Author not found' });
+            }
+
+            andConditions.push({
+                authorId: authorUser.id
+            });
+        }
+
+        if (andConditions.length === 0) {
+            return res.status(400).json({ error: 'At least one filter parameter must be provided' });
+        }
+
+        const blogs = await prisma.blog.findMany({
+            where: {
+                AND: andConditions,
+            }
+        });
+
+        res.status(200).json(blogs); 
+    } catch (error) {
+        console.error("Error in filterBlog:", error); 
         res.status(400).json({ error: error.message });
     }
 };
