@@ -95,7 +95,7 @@ Implemented a REST API backend to handle CRUD operations for blog posts. Each bl
 1. **Clone the Repository**
 
    ```bash
-   git clone https://github.com/your-username/blog-post-api.git
+   git clone https://github.com/Enigma-52/Vizmo-Backend-Assignment
    cd blog-post-api
    ```
 2. Install Dependencies
