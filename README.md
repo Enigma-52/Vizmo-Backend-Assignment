@@ -41,7 +41,7 @@ Implemented a REST API backend to handle CRUD operations for blog posts. Each bl
 #### Get Details of a Single Blog Post
 
 - **GET** `/api/blogs/:id`
-  - Retrieves details of a specific blog post by `postId`.
+  - Retrieves details of a specific blog post by `id`.
   - **Response**: Returns the details of the blog post.
 
 #### Create a New Blog Post
@@ -54,14 +54,14 @@ Implemented a REST API backend to handle CRUD operations for blog posts. Each bl
 #### Update an Existing Blog Post
 
 - **PUT** `/api/blogs/:id`
-  - Updates an existing blog post by `postId`.
+  - Updates an existing blog post by `id`.
   - **Body**: `{ "title": "string", "content": "string", "images": ["string"] }`
   - **Response**: Returns the updated blog post.
 
 #### Delete an Existing Blog Post
 
 - **DELETE** `/api/blogs/:id`
-  - Deletes a blog post by `postId`.
+  - Deletes a blog post by `id`.
   - **Response**: Returns a success message.
 
 #### Get Filtered List of Posts
@@ -88,6 +88,8 @@ Implemented a REST API backend to handle CRUD operations for blog posts. Each bl
 - **Email**: `string` - The email address of the user.
 - **Password**: `string` - The password for the user account.
 
+- Refer to `prisma/schema.prisma` for more details
+
 ## Setup
 
 1. **Clone the Repository**
@@ -95,3 +97,37 @@ Implemented a REST API backend to handle CRUD operations for blog posts. Each bl
    ```bash
    git clone https://github.com/your-username/blog-post-api.git
    cd blog-post-api
+   ```
+2. Install Dependencies
+  
+  ```bash
+  npm install
+  ```
+
+3. Configure Environment Variables
+
+  Create a .env file and add:
+  
+  ```bash
+  DATABASE_URL=your-database-url
+  DIRECT_URL=your-direct-url
+  JWT_SECRET=your-jwt-secret
+  PORT=PORT-NUMBER
+  ```
+
+4. Run Migrations
+  
+  ```bash
+  npx prisma migrate dev --name init
+  ```
+5. Generate Prisma Client:
+
+```bash
+npx prisma generate
+```
+
+6. Start the Server
+
+```bash
+npm start
+```
