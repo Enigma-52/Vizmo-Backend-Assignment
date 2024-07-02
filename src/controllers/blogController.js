@@ -92,10 +92,8 @@ export const deleteBlog = async (req, res) => {
 };
 
 export const filterBlog = async (req, res) => {
+    
     const { title = '', content = '', authorName = '' } = req.query;
-
-    console.log(title);
-    console.log(content);
 
     try {
         const andConditions = []; 
