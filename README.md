@@ -6,6 +6,15 @@
 
 Implemented a REST API backend to handle CRUD operations for blog posts. Each blog post should include a title, optional images, content, and be associated with a single user (author). Users can sign up, log in, and manage their blog posts through the API.
 
+### Tech Stack
+
+- **Node.js**: JavaScript runtime for building the backend server.
+- **Express.js**: Web application framework for Node.js for building RESTful APIs.
+- **PostgreSQL**: Relational database for storing user and blog post data.
+- **Supabase**: Managed PostgreSQL database service used for the database backend.
+- **Prisma**: ORM for interacting with the PostgreSQL database.
+- **JWT (JSON Web Token)**: For user authentication and authorization.
+
 ## Authentication
 
 - **User Login and Signup**: Users can create an account or log into an existing one to manage their blog posts.
