@@ -75,7 +75,7 @@ Implemented a REST API backend to handle CRUD operations for blog posts. Each bl
 
 #### Get Filtered List of Posts
 
-- **GET** `/api/blogsFilter?title=string&author=string`
+- **GET** `/api/blogsFilter?title=string&content=string&authorName=string`
   - Retrieves a list of blog posts filtered by `title` and `author`.
   - **Query Parameters**:
     - `title`: (Optional) Filter by post title.
